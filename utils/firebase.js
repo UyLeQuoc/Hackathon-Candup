@@ -151,6 +151,7 @@ export const getUserFromFirebase = async (loggedInUser) => {
     return null;
   }
 };
+
 // New Code
 export const getAllProductsFromFirebase = async () => {
   const queryQuestion = query(collection(db, "Products"));
@@ -188,6 +189,16 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
     output.push(doc.data());
   });
   return output;
+};
+
+export const getUserFromFirebase = async (loggedInUser) => {
+  const noteRef = doc(db, 'users' ,`${loggedInUser.uid}`);
+  const noteSnap = await getDoc(noteRef);
+  if (noteSnap.exists()) {
+    return noteSnap.data();
+  } else {
+    return null;
+  }
 };
 
 export const getOrders = async (id) => {
