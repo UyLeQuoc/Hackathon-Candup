@@ -4,7 +4,7 @@ import { SearchOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/
 import Image from 'next/image'
 import Link from 'next/link'
 
-import Logo from '../public/main/logo.png'
+import Logo from '../public/main/logo.svg'
 function MainNavigation() : JSX.Element {
   return (
     <div className='main-navigation'>

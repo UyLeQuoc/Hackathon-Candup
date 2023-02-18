@@ -2,7 +2,7 @@ import { Col, Divider, Row, Space, Typography } from 'antd';
 import { FacebookOutlined, InstagramOutlined } from '@ant-design/icons';
 
 import Image from 'next/image';
-import Logo from '../public/main/logo.png';
+import Logo from '../public/main/logo.svg';
 import Link from 'next/link';
 
 function MainFooter() : JSX.Element {
