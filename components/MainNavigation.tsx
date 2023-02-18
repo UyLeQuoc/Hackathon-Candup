@@ -11,7 +11,7 @@ function MainNavigation() : JSX.Element {
       <div className='left'>
         <Link href='/' className='logo'>
           <Image src={Logo} alt='logo' width={33} height={41} />
-          <div className='title'>Foodie</div>
+          <div className='title'>Candup</div>
         </Link>
         <ConfigProvider
          theme={{

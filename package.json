@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "yarn run build && yarn run start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
