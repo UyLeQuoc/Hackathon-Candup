@@ -26,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             email: loggedInUser.email,
             lastSeen: serverTimestamp(),
             photoURL: loggedInUser.photoURL,
+            displayName: loggedInUser.displayName,
           },
           {merge: true}
         )
@@ -39,6 +40,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   , [loggedInUser])
 
+  if(loading){
+    return <Loading />
+  }
   if(!loggedInUser){
     return <LoginPage />;
   }
