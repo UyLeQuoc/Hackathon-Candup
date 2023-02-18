@@ -83,6 +83,7 @@ export const ProductEdit = () => (
         <ImageInput source="image" label="Product-Pic" accept="image/*">
           <ImageField source="src" title="title" />
         </ImageInput>
+        <SelectInput source="shop" choices={[{id: '711', name: '711'},{id: 'Laha Coffee', name: 'Laha Coffee'},{id: 'Passio', name: 'Passio'}]} />
         <NumberInput source='quantity' label="Quantity" min={0}/>
         <BooleanInput source='isAvailable' label="Is Available"/>
     </SimpleForm>
@@ -99,6 +100,7 @@ export const ProductCreate = () => (
           <ImageField source="src" title="title" />
         </ImageInput>
         <NumberInput source='quantity' label="Quantity" min={0}/>
+        <SelectInput source="shop" choices={[{id: '711', name: '711'},{id: 'Laha Coffee', name: 'Laha Coffee'},{id: 'Passio', name: 'Passio'}]} />
         <BooleanInput source='isAvailable' label="Is Available"/>
     </SimpleForm>
   </Create>
