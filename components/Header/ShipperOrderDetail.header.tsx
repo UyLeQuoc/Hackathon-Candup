@@ -16,10 +16,10 @@ function ShipperOrderDetailHeader(): JSX.Element {
   const [loggedInUser, loading, error] = useAuthState(auth);
 
   return (
-    <div className="main-navigation shadow-lg">
+    <div className="main-navigation" style={{ marginBottom: 24 }}>
       <div className="left">
         <Link href="/" className="logo">
-          <Image src={'/main/logo.svg'} alt="logo" width={33} height={41} />
+          <Image src={"/main/logo.svg"} alt="logo" width={33} height={41} />
           <div className="title">Candup</div>
         </Link>
       </div>
