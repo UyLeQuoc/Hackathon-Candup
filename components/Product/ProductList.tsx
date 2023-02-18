@@ -1,4 +1,4 @@
-import { Typography } from "antd"
+import { Skeleton, Typography } from "antd"
 import { useEffect, useState } from "react"
 import { getProductsFromFirebaseBasedOnCategory } from "../../utils/firebase"
 import Product from "./Product"
@@ -9,11 +9,13 @@ function ProductList({category, products} : any) : JSX.Element {
       <div className="product-list-title">{category}<div></div></div>
       <div className="product-list-content">
       {
-        products.map((product : any) => {
-          return (
-            <Product key={product.id} product={product} />
-          )
-        })
+        products.length == 0 ? <Skeleton /> : (
+          products.map((product : any) => {
+            return (
+              <Product key={product.id} product={product} />
+            )
+          })
+        )
       }
       </div>
     </div>
