@@ -3,7 +3,11 @@ import ShipperOrderDetailHeader from "../../../components/Header/ShipperOrderDet
 import ShipperTable from "../../../components/Table/ShipperTable";
 import { Button } from "antd";
 import { useRouter } from "next/router";
-import { getOrders, getUserFromFirebase } from "../../../utils/firebase";
+import {
+  getOrders,
+  getUserFromFirebase,
+  setOrderStatus,
+} from "../../../utils/firebase";
 import { Shipper } from "../../../types/shipper.types";
 import { Users } from "../../../types/user.types";
 
@@ -23,7 +27,7 @@ export default function ShipperOrderDetailPage({}: Props) {
         const orders = (await getOrders(id)) as Shipper;
         console.log(orders);
 
-        const user = (await getUserFromFirebase({ uid: order?.user })) as Users;
+        const user = (await getUserFromFirebase({ uid: orders?.user })) as Users;
         console.log(user);
 
         setUser(user);
@@ -33,6 +37,14 @@ export default function ShipperOrderDetailPage({}: Props) {
       }
     })();
   }, []);
+
+  const handleChangeStatus = async () => {
+    try {
+      await setOrderStatus(id, "success");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -61,7 +73,7 @@ export default function ShipperOrderDetailPage({}: Props) {
         </div>
         <Button
           style={{ width: "100%", height: 50, margin: "16px 0" }}
-          onClick={() => newRouter.push("/shipper/management")}
+          onClick={handleChangeStatus}
         >
           Xác nhập giao thành công
         </Button>

@@ -177,7 +177,7 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
 };
 
 export const getOrders = async (id) => {
-  const queryQuestion = doc(db, "Orders", `${id}`);;
+  const queryQuestion = doc(db, "Orders", `${id}`);
   const noteSnap = await getDoc(queryQuestion);
 
   if (noteSnap.exists()) {
@@ -186,5 +186,13 @@ export const getOrders = async (id) => {
   return [];
 };
 
+export const setOrderStatus = async (id, status) => {
+  const queryQuestion = doc(db, "Orders", `${id}`);
+
+  const data = {
+    status,
+  };
+  await updateDoc(queryQuestion, data);
+};
 
 export { db, auth, storage };
