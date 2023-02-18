@@ -20,16 +20,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const setUserInFirebase = async () => {
       try {
-        await setDoc(
-          doc(db, 'users', loggedInUser.uid),
-          {
-            email: loggedInUser.email,
-            lastSeen: serverTimestamp(),
-            photoURL: loggedInUser.photoURL,
-            displayName: loggedInUser.displayName,
-          },
-          {merge: true}
-        )
+        if(loggedInUser){
+          await setDoc(
+            doc(db, 'users', loggedInUser.uid),
+            {
+              email: loggedInUser.email,
+              lastSeen: serverTimestamp(),
+              photoURL: loggedInUser.photoURL,
+              displayName: loggedInUser.displayName,
+            },
+            {merge: true}
+          )
+        }
       } catch(error) {
         console.log("ERROR SETTING USER INFO IN FIREBASE", error)
       }
