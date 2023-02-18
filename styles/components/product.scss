@@ -1,0 +1,43 @@
+.product-list{
+
+  &-title{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 41px;
+    margin-bottom: 10px;
+    div{
+      height: 3px;
+      width: 100px;
+      background-color: $color-primary;
+    }
+  }
+
+  &-content{
+    display: flex;
+    
+  }
+
+
+  .product-card{
+  box-shadow: $box-shadow;
+  width: 300px;
+  height: 300px;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  border-radius: 15px;
+
+  .info{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+}
