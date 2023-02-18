@@ -79,11 +79,12 @@ export const ProductEdit = () => (
     <SimpleForm>
         <TextInput source='name' label="Product Name" multiline/>
         <SelectInput source="category" choices={categories} />
-        <NumberInput source='price' label="Product Price"/>
+        <NumberInput source='price' label="Product Price" min={0}/>
         <ImageInput source="image" label="Product-Pic" accept="image/*">
           <ImageField source="src" title="title" />
         </ImageInput>
-        <NumberInput source='quantity' label="Quantity"/>
+        <SelectInput source="shop" choices={[{id: '711', name: '711'},{id: 'Laha Coffee', name: 'Laha Coffee'},{id: 'Passio', name: 'Passio'}]} />
+        <NumberInput source='quantity' label="Quantity" min={0}/>
         <BooleanInput source='isAvailable' label="Is Available"/>
     </SimpleForm>
   </Edit>
@@ -94,11 +95,12 @@ export const ProductCreate = () => (
     <SimpleForm>
         <TextInput source='name' label="Product Name" multiline/>
         <SelectInput source="category" choices={categories} />
-        <NumberInput source='price' label="Product Price"/>
+        <NumberInput source='price' label="Product Price" min={0}/>
         <ImageInput source="image" label="Product-Pic" accept="image/*">
           <ImageField source="src" title="title" />
         </ImageInput>
-        <NumberInput source='quantity' label="Quantity"/>
+        <NumberInput source='quantity' label="Quantity" min={0}/>
+        <SelectInput source="shop" choices={[{id: '711', name: '711'},{id: 'Laha Coffee', name: 'Laha Coffee'},{id: 'Passio', name: 'Passio'}]} />
         <BooleanInput source='isAvailable' label="Is Available"/>
     </SimpleForm>
   </Create>
