@@ -1,0 +1,43 @@
+.main-navigation{
+  height: 64;
+  line-height: 64px;
+  padding: 0 60px;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+
+  .left{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .search-bar{
+      margin-left: 80px;
+      width: 300px;
+    }
+  }
+
+  .right{
+    display: flex;
+    align-items: center;
+
+    .cart-icon{
+      font-size: 30px;
+    }
+    .avatar{
+      margin-left: 40px;
+    }
+  }
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+
+  .title{
+    font-size: 26px;
+    font-weight: 700;
+    margin-left: 20px;
+    color: #000;
+  }
+}

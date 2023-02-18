@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./abstracts/functions.scss";
+@import "./abstracts/mixins.scss";
+@import "./abstracts/variables.scss";
+
+@import "./base/reset.scss";
+
+@import "./components/loading.scss";
+@import "./components/main-navigation.scss";
+
+/* Inter */
+/* Roboto */
+
