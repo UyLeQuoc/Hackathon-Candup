@@ -183,7 +183,7 @@ export const getOrders = async (id) => {
   if (noteSnap.exists()) {
     return noteSnap.data();
   }
-  return [];
+  throw new Error();
 };
 
 export const setOrderStatus = async (id, status) => {

@@ -84,7 +84,7 @@ export interface Settings {
 }
 
 export interface Product {
-  quantity: string;
+  quantity: number;
   item: Item;
 }
 

@@ -1,88 +1,52 @@
 import React from "react";
 import { Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { Product } from "../../types/shipper.types";
+import convertToDongString from "../../utils/convert";
 
-interface DataType {
-  key: string;
-  product: {
-    name: string;
-    image: string;
-  };
-  price: number;
-  quantity: number;
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<Product> = [
   {
     title: "Sản phẩm",
-    dataIndex: "product",
-    key: "product",
-    render: (product) => {
+    dataIndex: "item",
+    key: "item",
+    render: (item) => {
       return (
         <div
           style={{ display: "flex", alignItems: "center", color: "#FF4206" }}
         >
-          <img src={product.image} width={200} height={200} />
+          <img src={item.image.src} width={200} height={200} />
 
-          <h2 style={{ margin: "24px 24px" }}>{product.name}</h2>
+          <h2 style={{ margin: "24px 24px" }}>{item.name}</h2>
         </div>
       );
     },
   },
   {
     title: "Price",
-    dataIndex: "price",
-    key: "price",
-    render: (price) => {
-      return <h2 style={{ margin: 0, color: "#FF4206" }}>{price}</h2>;
+    dataIndex: "item",
+    key: "item",
+    align: "right",
+    render: (item, state) => {
+      return <h2 style={{ margin: 0, color: "#FF4206" }}>{convertToDongString(item.price * state.quantity)}</h2>;
     },
   },
   {
     title: "Quantity",
     dataIndex: "quantity",
     key: "quantity",
+    align: "right",
     render: (quantity) => {
       return <h2 style={{ margin: 0, color: "#FF4206" }}>{quantity}</h2>;
     },
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    product: {
-      image: "dsa",
-      name: "dasdas",
-    },
-    price: 32,
-    quantity: 33,
-  },
-  {
-    key: "2",
-    product: {
-      image: "dsa",
-      name: "dasdas",
-    },
-    price: 42,
-    quantity: 232,
-  },
-  {
-    key: "3",
-    product: {
-      image: "dsa",
-      name: "dasdas",
-    },
-    price: 12,
-    quantity: 23,
-  },
-];
-
-const ShipperTable: React.FC = () => (
+const ShipperTable: React.FC<{ data: Product[] }> = (props) => (
   <Table
     style={{ background: "red" }}
     pagination={false}
     columns={columns}
-    dataSource={data}
+    dataSource={props.data}
   />
 );
 
