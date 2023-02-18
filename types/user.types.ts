@@ -9,7 +9,6 @@ export interface Users {
   defaultName: string;
   cart: Cart;
 }
-
 export interface LastSeen {
   seconds: number;
   nanoseconds: number;

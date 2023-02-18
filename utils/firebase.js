@@ -163,6 +163,20 @@ export const getAllProductsFromFirebase = async () => {
   return output;
 };
 
+export const getAllOrdersFromFirebase = async() => {
+  const queryQuestion = query(collection(db,"Orders"));
+  const output = [];
+  const querySnapshot = await getDocs(queryQuestion);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+   const x = {
+    id: doc.id,
+    data: doc.data()
+   }
+    output.push(x);
+  });
+  return output;
+}
 export const getProductsFromFirebaseBasedOnCategory = async (category) => {
   const queryQuestion = query(
     collection(db, "Products"),
