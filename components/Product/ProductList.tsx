@@ -16,13 +16,24 @@ function ProductList() : JSX.Element {
       price: 65000,
       image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
     },
-
+    {
+      id: 3,
+      name: 'Combo Cơm Trộn Poke , Tàu Hũ Singapore & 1 Chai Nuớc',
+      price: 65000,
+      image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
+    },
+    {
+      id: 4,
+      name: 'Combo Cơm Trộn Poke , Tàu Hũ Singapore & 1 Chai Nuớc',
+      price: 65000,
+      image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
+    },
   ]
 
   return (
-    <div className="product-list">
-      {/* <div className="product-list-title">Ưu Đãi Hấp Dẫn<div></div></div> */}
-      {/* <div className="product-list-content">
+    <div className="product-list bg-white">
+      <div className="product-list-title">Ưu Đãi Hấp Dẫn<div></div></div>
+      <div className="product-list-content">
       {
         products.map((product) => {
           return (
@@ -30,7 +41,7 @@ function ProductList() : JSX.Element {
           )
         })
       }
-      </div> */}
+      </div>
     </div>
   )
 }

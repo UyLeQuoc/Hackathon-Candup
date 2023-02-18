@@ -1,0 +1,61 @@
+.landing-ui{
+  width: 100%;
+  height: calc(100vh - 80px);
+  background-color: white;
+
+  .slogan{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-flow: column;
+    padding: 0 80px;
+    }
+  .badge{
+    border-radius: 100px;
+    background-color: $color-primary;
+    padding: 5px 10px;
+    color: white;
+  }
+  .hero{
+      z-index: 2;
+      position: relative;
+      display: flex;
+    
+      
+      &-product{
+        position: absolute;
+        top: 50px;
+        right: 130px;
+        z-index: 1;
+        display: flex;
+        flex-flow: row nowrap;
+        
+      }
+      &-image{
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        z-index: 0;
+      }
+      .product-card{
+      box-shadow: $box-shadow;
+      width: 250px;
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      border-radius: 15px;
+      margin: 0 15px 15px 0;
+    
+      .info{
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex: 1 1 auto;
+        text-align: center;
+      }
+    }
+  }
+}
