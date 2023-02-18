@@ -12,7 +12,7 @@ function Product({product}: IProps) : JSX.Element {
 
   return (
     <div className="product-card">
-      <Image src={ProductImage} width={150} height={150} alt={"product"} />
+      <Image src={product.image.src} width={150} height={150} alt={"product"} />
       <div>
         <Typography.Title level={5}>{product.name}</Typography.Title>
         <div className="info">
