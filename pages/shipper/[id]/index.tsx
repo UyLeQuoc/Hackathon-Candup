@@ -10,7 +10,8 @@ import {
 } from "../../../utils/firebase";
 import { Shipper } from "../../../types/shipper.types";
 import { Users } from "../../../types/user.types";
-
+import moment from "moment";
+import "moment/locale/vi";
 type Props = {};
 
 const orange = "#FF4206";
@@ -33,9 +34,6 @@ export default function ShipperOrderDetailPage({}: Props) {
         const user = (await getUserFromFirebase({
           uid: orders?.user,
         })) as Users;
-        console.log(orders);
-
-        console.log(user);
         setLoading(false);
         setUser(user);
         setOrder(orders);
@@ -100,7 +98,14 @@ export default function ShipperOrderDetailPage({}: Props) {
                 </div>
                 <div>
                   <h3>Tổng đơn</h3>
-                  <h1 style={{ color: orange }}>{order?.totalPrice} đ</h1>
+                  <h1 style={{ color: orange }}>{order?.totalPrice}</h1>
+                  <h3>Thời gian giao hàng</h3>
+                  <h1 style={{ color: orange }}>
+                    {moment
+                      .unix(order?.expired.seconds || 0)
+                      .locale("vi")
+                      .format("LLLL")}{" "}
+                  </h1>
                 </div>
               </div>
               {status ? (

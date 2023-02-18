@@ -179,7 +179,7 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
 export const getOrders = async (id) => {
   const queryQuestion = doc(db, "Orders", `${id}`);
   const noteSnap = await getDoc(queryQuestion);
-
+  
   if (noteSnap.exists()) {
     return noteSnap.data();
   }

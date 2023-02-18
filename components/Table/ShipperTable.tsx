@@ -6,7 +6,7 @@ import convertToDongString from "../../utils/convert";
 
 const columns: ColumnsType<Product> = [
   {
-    title: "Sản phẩm",
+    title: "Product",
     dataIndex: "item",
     key: "item",
     render: (item) => {
