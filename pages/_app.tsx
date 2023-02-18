@@ -13,9 +13,11 @@ import { auth, db } from '../utils/firebase';
 import LoginPage from "../components/Login";
 import { Loading } from "react-admin";
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [loggedInUser, loading, error] = useAuthState(auth);
   console.log("LOGGED IN USER", loggedInUser);
+const persistor = getPersistor();
 
   useEffect(() => {
     const setUserInFirebase = async () => {
@@ -50,7 +52,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <Component {...pageProps} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+          <Component {...pageProps} />
+        </PersistGate>
+      </Provider>
   );
 }
 
