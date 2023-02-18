@@ -4,7 +4,6 @@ function index() {
   return (
     <>
     <MainNavigation/>
-    <SearchContainer/>
     <MainFooter/>
     </>
   )

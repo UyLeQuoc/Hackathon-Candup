@@ -27,7 +27,6 @@ function App() {
           console.log(res);
           
           if (!res) {
-            message.error('Get user failed')
             return;
           }
           setUser(res)

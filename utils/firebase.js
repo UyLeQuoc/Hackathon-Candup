@@ -3,7 +3,7 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -113,6 +113,20 @@ export const createAnswer = async (questionID, email) => {
   }
   await setDoc(noteRef, data);
   return data;
+}
+
+export const createOrder = async (cart) => {
+  const id = uuidv4();
+  const orderRef = doc(db, 'Orders' ,`${id}`)
+  await setDoc(orderRef, {
+    create: serverTimestamp(),
+    deviveryFee: cart.DeliveryFee,
+    location: cart.Location,
+    status: 'pending',
+    products: cart.ProductList,
+    user: cart.user,
+    id: id,
+  });
 }
 
 export const getNoteFromFirebase = async (noteID) => {
