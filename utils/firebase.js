@@ -194,5 +194,13 @@ export const setOrderStatus = async (id, status) => {
   };
   await updateDoc(queryQuestion, data);
 };
+export const setOrderStatusWithDeliverer = async (id, status, deliverer) => {
+  const queryQuestion = doc(db, "Orders", `${id}`);
 
+  const data = {
+    status,
+    deliverer,
+  };
+  await updateDoc(queryQuestion, data);
+};
 export { db, auth, storage };
