@@ -13,22 +13,27 @@ import { auth, db } from '../utils/firebase';
 import LoginPage from "../components/Login";
 import { Loading } from "react-admin";
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [loggedInUser, loading, error] = useAuthState(auth);
   console.log("LOGGED IN USER", loggedInUser);
+const persistor = getPersistor();
 
   useEffect(() => {
     const setUserInFirebase = async () => {
       try {
-        await setDoc(
-          doc(db, 'users', loggedInUser.uid),
-          {
-            email: loggedInUser.email,
-            lastSeen: serverTimestamp(),
-            photoURL: loggedInUser.photoURL,
-          },
-          {merge: true}
-        )
+        if(loggedInUser){
+          await setDoc(
+            doc(db, 'users', loggedInUser.uid),
+            {
+              email: loggedInUser.email,
+              lastSeen: serverTimestamp(),
+              photoURL: loggedInUser.photoURL,
+              displayName: loggedInUser.displayName,
+            },
+            {merge: true}
+          )
+        }
       } catch(error) {
         console.log("ERROR SETTING USER INFO IN FIREBASE", error)
       }
@@ -39,12 +44,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   , [loggedInUser])
 
+  if(loading){
+    return <Loading />
+  }
   if(!loggedInUser){
     return <LoginPage />;
   }
 
   return (
-    <Component {...pageProps} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+          <Component {...pageProps} />
+        </PersistGate>
+      </Provider>
   );
 }
 

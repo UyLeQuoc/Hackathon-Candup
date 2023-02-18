@@ -5,7 +5,8 @@ export const count = createModel<RootModel>()({
   state: 0, // initial state
   reducers: {
     // handle state changes with pure functions
-    increment(state, payload: number) {
+    increment(payload: number, state) {
+      console.log("This is current root state", payload);
       return state + payload;
     },
   },

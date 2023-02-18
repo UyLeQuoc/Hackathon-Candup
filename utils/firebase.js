@@ -88,17 +88,7 @@ export const updateAnswer = async (answerID, content) => {
   await updateDoc(noteRef, data);
 }
 
-export const getAnswerFromFirebase = async (loggedInUser) => {
-  const queryQuestion = query(collection(db, 'Answers'), where("createdby", "==", loggedInUser.email));
-  const output = new Map();
-  const querySnapshot = await getDocs(queryQuestion);
-  const map = new Map();
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    output.set(doc.data().questionID, doc.data());
-  });
-  return output;
-};
+
 
 // Create Note In Firebase
 export const createNote = async (noteID, loggedInUser) => {
@@ -146,4 +136,26 @@ export const getNoteFromFirebase = async (noteID) => {
     return null;
   }
  };
+// New Code
+export const getAllProductsFromFirebase = async () => {
+  const queryQuestion = query(collection(db, 'Products'));
+  const output = []
+  const querySnapshot = await getDocs(queryQuestion);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    output.push(doc.data());
+  });
+  return output;
+}; 
+
+export const getProductsFromFirebaseBasedOnCategory = async (category) => {
+  const queryQuestion = query(collection(db, 'Products'), where("category", "==", category));
+  const output = []
+  const querySnapshot = await getDocs(queryQuestion);
+  querySnapshot.forEach((doc) => {
+    output.push(doc.data());
+  });
+  return output;
+}; 
+
 export { db, auth, storage };
