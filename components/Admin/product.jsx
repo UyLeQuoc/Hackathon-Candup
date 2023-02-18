@@ -2,44 +2,16 @@ import { BooleanField, BooleanInput, Create, Datagrid, DeleteButton, Edit, EditB
 import ImageProduct from './ImageProduct';
 const categories = [
   {
-    id: "Bánh Mì",
-    name: "Bánh Mì",
+    id: "Đồ Ăn",
+    name: "Đồ Ăn",
   },
   {
-    id: "Nước đóng chai",
-    name: "Nước đóng chai",
+    id: "Đồ Uống",
+    name: "Đồ Uống",
   },
   {
-    id: "Sữa",
-    name: "Sữa",
-  },
-  {
-    id: "Snack",
-    name: "Snack",
-  },
-  {
-    id: "Kẹo",
-    name: "Kẹo",
-  },
-  {
-    id: "Trà",
-    name: "Trà",
-  },
-  {
-    id: "Cafe",
-    name: "Cafe",
-  },
-  {
-    id: "Món Cơm",
-    name: "Món Cơm",
-  },
-  {
-    id: "Món Mì",
-    name: "Món Mì",
-  },
-  {
-    id: "Món Ăn",
-    name: "Món Ăn",
+    id: "Khác",
+    name: "Khác",
   },
 ];
 export const ProductList = ({props}) => (
@@ -93,7 +65,7 @@ export const ProductEdit = () => (
 export const ProductCreate = () => (
   <Create>
     <SimpleForm>
-        <TextInput source='name' label="Product Name" multiline/>
+        <TextInput source='name' label="Product Name"/>
         <SelectInput source="category" choices={categories} />
         <NumberInput source='price' label="Product Price" min={0}/>
         <ImageInput source="image" label="Product-Pic" accept="image/*">
