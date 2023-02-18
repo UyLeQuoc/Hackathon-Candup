@@ -1,10 +1,26 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 // import { v4 as uuidv4 } from 'uuid';
-
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,12 +45,11 @@ export const firebaseConfig = {
   storageBucket: "candup-622d8.appspot.com",
   messagingSenderId: "789673238138",
   appId: "1:789673238138:web:a5e5cebc93d42fc851e5c3",
-  measurementId: "G-EQZLDHCPM2"
+  measurementId: "G-EQZLDHCPM2",
 };
 
-
 // Initialize Firebase
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
@@ -42,11 +57,13 @@ const storage = getStorage(app);
 
 const auth = getAuth(app);
 
-
 export const getQuestionFromFirebase = async (noteID) => {
-  if(!noteID) return;
+  if (!noteID) return;
 
-  const queryQuestion = query(collection(db, 'Questions'), where("noteID", "==", noteID));
+  const queryQuestion = query(
+    collection(db, "Questions"),
+    where("noteID", "==", noteID)
+  );
   const output = [];
   const querySnapshot = await getDocs(queryQuestion);
   querySnapshot.forEach((doc) => {
@@ -57,11 +74,11 @@ export const getQuestionFromFirebase = async (noteID) => {
 };
 
 export const deleteQuestionFromFirebase = async (graphID, questionID) => {
-  if(!graphID || !questionID) return;
-  await deleteDoc(doc(db, "graphs", `${graphID}`, 'questions', questionID));
+  if (!graphID || !questionID) return;
+  await deleteDoc(doc(db, "graphs", `${graphID}`, "questions", questionID));
 
   // await deleteDocuments(collection(db, "graphs", `${graphID}`, questionID));
-}
+};
 
 const deleteDocuments = async (collectionRef) => {
   const querySnapshot = await getDocs(collectionRef);
@@ -71,91 +88,103 @@ const deleteDocuments = async (collectionRef) => {
 };
 
 export const updateNote = async (noteID, content) => {
-  const noteRef = doc(db, 'Notes' ,`${noteID}`);
+  const noteRef = doc(db, "Notes", `${noteID}`);
   const data = {
     content: content,
-    timestamp: serverTimestamp()
-  }
+    timestamp: serverTimestamp(),
+  };
   await updateDoc(noteRef, data);
-}
+};
 
 export const updateAnswer = async (answerID, content) => {
-  const noteRef = doc(db, 'Answers' ,`${answerID}`);
+  const noteRef = doc(db, "Answers", `${answerID}`);
   const data = {
     content: content,
-    lastupdate: serverTimestamp()
-  }
+    lastupdate: serverTimestamp(),
+  };
   await updateDoc(noteRef, data);
-}
-
-
+};
 
 // Create Note In Firebase
 export const createNote = async (noteID, loggedInUser) => {
-  const noteRef = doc(db, 'Notes' ,`${noteID}`);
+  const noteRef = doc(db, "Notes", `${noteID}`);
   const data = {
     owner: loggedInUser.uid,
-    content: '<h1>Start typing...</h1>',
+    content: "<h1>Start typing...</h1>",
     timestamp: serverTimestamp(),
-  }
+  };
   await setDoc(noteRef, data);
   return data;
-}
+};
 export const createAnswer = async (questionID, email) => {
   const id = uuidv4();
-  const noteRef = doc(db, 'Answers' ,`${id}`);
+  const noteRef = doc(db, "Answers", `${id}`);
   const data = {
     id: id,
     questionID: questionID,
     createdby: email,
-    content: '<h1>Type the answer...</h1>',
+    content: "<h1>Type the answer...</h1>",
     createdate: serverTimestamp(),
-  }
+  };
   await setDoc(noteRef, data);
   return data;
-}
+};
 
 export const getNoteFromFirebase = async (noteID) => {
-  const noteRef = doc(db, 'Notes' ,`${noteID}`);
+  const noteRef = doc(db, "Notes", `${noteID}`);
   const noteSnap = await getDoc(noteRef);
   if (noteSnap.exists()) {
     return noteSnap.data();
   } else {
-    console.log("No such document!")
+    console.log("No such document!");
     // doc.data() will be undefined in this case
     return null;
   }
- };
+};
 
- export const getUserFromFirebase = async (loggedInUser) => {
-  const noteRef = doc(db, 'users' ,`${loggedInUser.uid}`);
+export const getUserFromFirebase = async (loggedInUser) => {
+  const noteRef = doc(db, "users", `${loggedInUser.uid}`);
   const noteSnap = await getDoc(noteRef);
   if (noteSnap.exists()) {
     return noteSnap.data();
   } else {
     return null;
   }
- };
+};
 // New Code
 export const getAllProductsFromFirebase = async () => {
-  const queryQuestion = query(collection(db, 'Products'));
-  const output = []
+  const queryQuestion = query(collection(db, "Products"));
+  const output = [];
   const querySnapshot = await getDocs(queryQuestion);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     output.push(doc.data());
   });
   return output;
-}; 
+};
 
 export const getProductsFromFirebaseBasedOnCategory = async (category) => {
-  const queryQuestion = query(collection(db, 'Products'), where("category", "==", category));
-  const output = []
+  const queryQuestion = query(
+    collection(db, "Products"),
+    where("category", "==", category)
+  );
+  const output = [];
   const querySnapshot = await getDocs(queryQuestion);
   querySnapshot.forEach((doc) => {
     output.push(doc.data());
   });
   return output;
-}; 
+};
+
+export const getOrders = async (id) => {
+  const queryQuestion = doc(db, "Orders", `${id}`);;
+  const noteSnap = await getDoc(queryQuestion);
+
+  if (noteSnap.exists()) {
+    return noteSnap.data();
+  }
+  return [];
+};
+
 
 export { db, auth, storage };

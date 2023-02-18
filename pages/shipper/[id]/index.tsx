@@ -1,14 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ShipperOrderDetailHeader from "../../../components/Header/ShipperOrderDetail.header";
 import ShipperTable from "../../../components/Table/ShipperTable";
 import { Button } from "antd";
 import { useRouter } from "next/router";
+import { getOrders, getUserFromFirebase } from "../../../utils/firebase";
+import { Shipper } from "../../../types/shipper.types";
+import { Users } from "../../../types/user.types";
 
 type Props = {};
+
 const orange = "#FF4206";
 
 export default function ShipperOrderDetailPage({}: Props) {
-  const newRouter = useRouter()
+  const newRouter = useRouter();
+  const [order, setOrder] = useState<Shipper>();
+  const [user, setUser] = useState<Users>();
+  const { id } = newRouter.query;
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const orders = (await getOrders(id)) as Shipper;
+        console.log(orders);
+
+        const user = (await getUserFromFirebase({ uid: order?.user })) as Users;
+        console.log(user);
+
+        setUser(user);
+        setOrder(orders);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <div>
       <ShipperOrderDetailHeader />
@@ -25,16 +50,19 @@ export default function ShipperOrderDetailPage({}: Props) {
         >
           <div style={{ padding: "16px" }}>
             <h3>Tên người nhận</h3>
-            <h1 style={{ color: orange }}>Le van viet</h1>
+            <h1 style={{ color: orange }}>{user?.displayName}</h1>
             <h3>Số điện thoại người nhận</h3>
-            <h1 style={{ color: orange }}>31231</h1>
+            <h1 style={{ color: orange }}>{user?.defaultPhoneNumber}</h1>
           </div>
           <div>
             <h3>Tổng đơn</h3>
-            <h1 style={{ color: orange }}>00000 đ</h1>
+            <h1 style={{ color: orange }}>{order?.totalPrice} đ</h1>
           </div>
         </div>
-        <Button style={{ width: "100%", height: 50, margin: "16px 0" }} onClick={() => newRouter.push('/shipper/management')}>
+        <Button
+          style={{ width: "100%", height: 50, margin: "16px 0" }}
+          onClick={() => newRouter.push("/shipper/management")}
+        >
           Xác nhập giao thành công
         </Button>
       </div>
