@@ -9,4 +9,5 @@ export class localStorageUtil {
   public static clearToken(){
     localStorage.removeItem('token');
   }
+  
 }
