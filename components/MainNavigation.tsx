@@ -1,11 +1,16 @@
-import { Avatar, Badge, ConfigProvider, Input } from 'antd'
-import { SearchOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { Avatar, Badge, ConfigProvider, Dropdown, Input } from 'antd'
+import { SearchOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined } from '@ant-design/icons'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
 import Logo from '../public/main/logo.svg'
+import { signOut } from 'firebase/auth'
+import { auth } from '../utils/firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
 function MainNavigation() : JSX.Element {
+  const [loggedInUser, loading, error] = useAuthState(auth);
+
   return (
     <div className='main-navigation'>
       <div className='left'>
@@ -28,7 +33,23 @@ function MainNavigation() : JSX.Element {
         <Badge count={5} color="#FF4206">
           <ShoppingCartOutlined className='cart-icon'/>
         </Badge>
-        <Avatar size="large" className='avatar' icon={<UserOutlined />} />
+        <Dropdown menu={
+          {
+            items: [
+              {
+                key: '1',
+                label: (
+                  <div onClick={() => signOut(auth)}>
+                    Log out
+                  </div>
+                ),
+                icon: <LogoutOutlined />,
+              },
+            ]
+          }
+        }>
+          <Avatar size="default" className='ml-5' src={loggedInUser != null ? loggedInUser.photoURL : <UserOutlined />}/>
+        </Dropdown>
       </div>
     </div>
   )
