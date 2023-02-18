@@ -1,22 +1,25 @@
 export type IProduct = {
-  id: String,
-  name: String,
-  price: Number,
-  quantity: Number,
-  image: String,
-  shop: String,
-  category: String,
+  id: string,
+  name: string,
+  price: number,
+  quantity: number,
+  image: {
+    src: string,
+    title: string,
+  },
+  shop: string,
+  category: string,
   isAvailable: Boolean,
   createdate: {
-    second: Number,
-    nanosecond: Number,
+    second: number,
+    nanosecond: number,
   },
   lastupdate: {
-    second: Number,
-    nanosecond: Number,
+    second: number,
+    nanosecond: number,
   },
-  createdby: String,
-  updatedby: String,
+  createdby: string,
+  updatedby: string,
 }
 
 export type ICart = {
@@ -24,10 +27,10 @@ export type ICart = {
   quantity: number,
 }
 export type IUser = {
-  email: String,
-  displayName: String,
-  photoURL: String,
+  email: string,
+  displayName: string,
+  photoURL: string,
   lastSeen: any,
   cart: ICart[],
-  phoneNumber: String,
+  phoneNumber: string,
 }

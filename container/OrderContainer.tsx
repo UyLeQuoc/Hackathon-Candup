@@ -1,23 +1,43 @@
 import { Button, Typography } from "antd";
-import React from "react";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import OrderDetailsComponent from "../components/Order/OrderDetailsComponent";
 import OrderItemListComponent from "../components/Order/OrderItemListComponent";
-import { useState, useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../utils/firebase";
+import { ICart, IProduct } from "../interfaces";
+import { Dispatch, RootState } from "../store";
+import { Modal } from "antd";
+import ProductList from "../components/Product/ProductList";
 
 export interface Product {
   price: number;
   name: string;
-  amount: number;
+  quantity: number;
   image: string;
   id: string;
 }
-function OrderContainer(): JSX.Element {
 
-  const [loginUser] = useAuthState(auth)
+const mapState = (state: RootState) => ({
+  user: state.user,
+});
+const mapDispatch = (dispatch: Dispatch) => ({
+  increment: () => dispatch.count.increment(1),
+  incrementAsync: () => dispatch.count.incrementAsync(1),
+});
 
-  
+
+const removeItem = (id: string, array: any[]) => {
+  const clone = [...array];
+  const index = clone.findIndex((p: any) => p.product.id === id);
+  if (index !== -1) {
+    clone.splice(index, 1);
+  }
+  return clone
+}
+
+
+let idRemove : string = "";
+function OrderContainer(props: any): JSX.Element {
+
   const deliveryHeading = {
     section: "Thông tin giao hàng",
     sub: ["Room No.", "Thời gian giao hàng"],
@@ -27,71 +47,57 @@ function OrderContainer(): JSX.Element {
     sub: ["Tên người nhận", "SĐT người nhận"],
   };
 
-  let product: Product = {
-    id: "1",
-    image: "",
-    name: "Banh mi thit",
-    amount: 1,
-    price: 15000,
-  };
 
-  let ProductListMock: Product[] = [
-    {
-      id: "1",
-      image: "",
-      name: "Banh mi thit",
-      amount: 1,
-      price: 15000,
-    },
-    {
-      id: "2",
-      image: "",
-      name: "Banh mi thit",
-      amount: 1,
-      price: 15000,
-    },
-    {
-      id: "3",
-      image: "",
-      name: "Banh mi thit",
-      amount: 1,
-      price: 15000,
-    },
-  ];
   const [cart, setCart] = useState({
-    ProductList: ProductListMock,
+    ProductList: props.user.cart,
     Location: "202",
     DeliveryTime: "9:15-9:30",
     RecipientName: "John Cena",
     PhoneNumber: "0123456789",
+    DeliveryFee: 0,
     Total: 0
   })
+  // console.log(cart)
 
-  //update productList when amount is changed
-  const amountChangeHandler = (id: string, value: number) => {
-    const ProductList = cart.ProductList
-    const index = ProductList.findIndex((p) => p.id === id);
-    
+  //update productList when quantity is changed
+
+  const quantityChangeHandler = (id: string, value: number) => {
+    const index = cart.ProductList.findIndex((p: any) => p.product.id === id);
+    if (value == 0) {
+      idRemove = id
+      
+     showModal()
+    } else {
     setCart({
       ...cart,
       ProductList: [
-        ...ProductList.slice(0, index),
-        { ...ProductList[index], amount: value },
-        ...ProductList.slice(index + 1),
+        ...cart.ProductList.slice(0, index),
+        { ...cart.ProductList[index], quantity: value },
+        ...cart.ProductList.slice(index + 1),
       ]
     });
+    }
   };
 
   //update total when productList is changed
 
   useEffect(() => {
     let temp = 0;
-    cart.ProductList.map((p) => {
-      temp += p.amount * p.price;
+    cart.ProductList.map((p: any) => {
+      temp += p.quantity * p.product.price;
     });
+    let shipFee = 2000;
+    if (temp > 49000 && temp < 99000) {
+      shipFee = 5000}
+    else if (temp >= 99000 && temp < 149000) {
+      shipFee = 7000
+    } else if (temp >= 149000) {
+      shipFee = 10000
+    }
     setCart({
       ...cart,
-      Total: temp
+      DeliveryFee: shipFee,
+      Total: temp*1.05 + shipFee,
     });
   }, [cart.ProductList]);
 
@@ -101,29 +107,57 @@ function OrderContainer(): JSX.Element {
       Location: value
     });
   };
-
   const deliveryTimeChangeHandler = (value: string) => {
     setCart({
       ...cart,
       DeliveryTime: value
     });
   };
-
   const recipientNameChangeHandler = (value: string) => {
     setCart({
       ...cart,
       RecipientName: value
     });
   };
-
   const phoneNumberChangeHandler = (value: string) => {
     setCart({
       ...cart,
       PhoneNumber: value
     });
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+    const productList = removeItem(idRemove, cart.ProductList);
+
+    setCart({
+      ...cart,
+      ProductList: productList
+    });
+    console.log(productList);
+    
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = () => {
+    
+  }
+
+
   return (
     <div className="flex flex-col bg-slate-400 m-0 p-0">
+      <Modal className="z-1" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>HI</p>
+      </Modal>
       <Typography.Title className="text-center">
         THÔNG TIN ĐƠN HÀNG
       </Typography.Title>
@@ -143,12 +177,13 @@ function OrderContainer(): JSX.Element {
       ></OrderDetailsComponent>
       <OrderItemListComponent
         ProductList={cart.ProductList}
-        amountChangeHandler={amountChangeHandler}
+        quantityChangeHandler={quantityChangeHandler}
         total={cart.Total}
+        deliveryFee={cart.DeliveryFee}
       ></OrderItemListComponent>
-      <Button size="large" className="mx-[10vw]" onClick={() => {console.log(cart)} }>Thanh Toán</Button>
+      <Button size="large" className="mx-[10vw]" onClick={handleSubmit}>Thanh Toán</Button>
     </div>
   );
 }
 
-export default OrderContainer;
+export default connect(mapState, mapDispatch)(OrderContainer);
