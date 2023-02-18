@@ -19,8 +19,10 @@ const columns: ColumnsType<DataType> = [
     key: "product",
     render: (product) => {
       return (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={product.image} width={200} height={200}  />
+        <div
+          style={{ display: "flex", alignItems: "center", color: "#FF4206" }}
+        >
+          <img src={product.image} width={200} height={200} />
 
           <h2 style={{ margin: "24px 24px" }}>{product.name}</h2>
         </div>
@@ -32,7 +34,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "price",
     key: "price",
     render: (price) => {
-      return <h2>{price}</h2>;
+      return <h2 style={{ margin: 0, color: "#FF4206" }}>{price}</h2>;
     },
   },
   {
@@ -40,7 +42,7 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "quantity",
     key: "quantity",
     render: (quantity) => {
-      return <h2>{quantity}</h2>;
+      return <h2 style={{ margin: 0, color: "#FF4206" }}>{quantity}</h2>;
     },
   },
 ];
