@@ -15,6 +15,6 @@
 		"jsx": "preserve",
 		"incremental": true
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "pages/_app.jsx", "src/**/*", "components/Admin/user.jsx", "components/Admin/product.jsx", "components/Admin/AdminPage.jsx", "pages/test.jsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "pages/_app.jsx", "src/**/*", "components/Admin/user.jsx", "components/Admin/product.jsx", "components/Admin/AdminPage.jsx", "pages/test.jsx", "store/models/user.ts"],
 	"exclude": ["node_modules"]
 }
