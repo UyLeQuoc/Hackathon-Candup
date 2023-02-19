@@ -21,7 +21,7 @@ function Cart(props:StateProps) : JSX.Element {
   const router = useRouter();
   return (
     <div className='flex justify-center align-middle' onClick={() => router.push("/order")}>
-      <Badge count={props.user.cart.length} color="#FF4206" className='cursor-pointer'>
+      <Badge count={props.user.cart.length} color="#FF4206" className='cursor-pointer test'>
         <ShoppingCartOutlined className='cart-icon'/>
       </Badge>
     </div>

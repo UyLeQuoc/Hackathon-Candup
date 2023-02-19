@@ -1,5 +1,5 @@
 
-import { Button, Card } from "antd";
+import { Button, Card, ConfigProvider } from "antd";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase"
 
@@ -39,13 +39,22 @@ function LoginPage(): JSX.Element {
         <img src="/main/logo.svg" height={100} width={100} />
 
         <h1>Đăng nhập</h1>
-        <Button
-          type="primary"
-          size="large"
-          onClick={signIn}
-        >
-          Sign In With Google
-        </Button>
+        <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#FF4206',
+                },
+              }}
+              >
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={signIn}
+                  >
+                    Sign In With Google
+                  </Button>
+              </ConfigProvider>
+        
       </Card>
     </div>
   );
