@@ -6,7 +6,7 @@ export interface Shipper {
   totalPrice: number;
   location: string;
   products: Product[];
-  expired: Expired;
+  deliveryTime: DeliveryTime;
 }
 
 export interface Create {
@@ -100,7 +100,7 @@ export interface Image {
   src: string;
 }
 
-export interface Expired {
+export interface DeliveryTime {
   seconds: number;
   nanoseconds: number;
 }

@@ -102,7 +102,12 @@ export default function ShipperOrderDetailPage({}: Props) {
                 <h3>Số điện thoại người nhận</h3>
                 <h1 style={{ color: orange }}>{user?.defaultPhoneNumber}</h1>
                 <h3>Thời gian giao hàng</h3>
-                <h1 style={{ color: orange }}></h1>
+                <h1 style={{ color: orange }}>
+                  {moment
+                    .unix(order?.deliveryTime?.seconds || 0)
+                    .locale("vi")
+                    .format("LLLL")}
+                </h1>
               </div>
               <div>
                 <h3>Phí giao hàng</h3>
