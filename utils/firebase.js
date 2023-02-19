@@ -13,19 +13,13 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-  where,
+  where
 } from "firebase/firestore";
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
+  getStorage
 } from "firebase/storage";
 // import { v4 as uuidv4 } from 'uuid';
 
-import { getAuth } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -199,12 +193,6 @@ export const getAllOrdersFromFirebase = async() => {
   });
   return output;
 }
-export const getProductsFromFirebaseBasedOnCategory = async (category) => {
-  const queryQuestion = query(
-    collection(db, "Products"),
-    where("category", "==", category)
-  );
-  const output = [];
 
 export const getProductsFromFirebaseBasedOnShop = async (shop) => {
   const queryQuestion = query(collection(db, 'Products'), where("shop", "==", shop));

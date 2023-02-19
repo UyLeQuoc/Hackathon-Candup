@@ -1,17 +1,8 @@
-import React from 'react'
-import LandingUI from '../components/LandingUI'
-import ProductList from '../components/Product/ProductList'
+import LandingUI from '../components/LandingUI';
+import ProductList from '../components/Product/ProductList';
 
-import { useEffect, useState } from 'react';
-import { getAllProductsFromFirebase } from '../utils/firebase';
-import { Avatar, message, Segmented } from 'antd';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '../utils/firebase';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Segmented } from 'antd';
 function HomeContainer({ user, setUser,products,loading, setShopSelect, loadingSkeleton }: any): JSX.Element {
-
-
-
   const filterCategoryProducts = (category: string) => {
     return products.filter((product: any) => product.category === category)
   }

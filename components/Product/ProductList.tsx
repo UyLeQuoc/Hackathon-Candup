@@ -1,6 +1,4 @@
-import { Skeleton, Typography } from "antd"
-import { useEffect, useState } from "react"
-import { getProductsFromFirebaseBasedOnShop } from "../../utils/firebase"
+import { Skeleton } from "antd"
 import Product from "./Product"
 
 function ProductList({category, products, loadingSkeleton=true} : any) : JSX.Element {
