@@ -41,11 +41,11 @@ const columns: ColumnsType<Shipper> = [
       dataIndex: "expired",
       key: "expired",
       render: (expired) => {
-        const expiredDay = new Date(expired.seconds);
-        const currentDay = new Date();
-        const timeLeft = expiredDay.getMinutes() - currentDay.getMinutes(); 
-        if (expiredDay<currentDay) timeLeft ===0;
-        return <h2>{timeLeft}min</h2>;
+        // const expiredDay = new Date(expired.seconds);
+        // const currentDay = new Date();
+        // const timeLeft = expiredDay.getMinutes() - currentDay.getMinutes(); 
+        // if (expiredDay<currentDay) timeLeft ===0;
+        return <h2>min</h2>;
       },
     },
     {

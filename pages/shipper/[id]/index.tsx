@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ShipperOrderDetailHeader from "../../../components/Header/ShipperOrderDetail.header";
 import ShipperTable from "../../../components/Table/ShipperTable";
-import { Button, Skeleton } from "antd";
+import { Button, Skeleton, message } from "antd";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import {
@@ -45,7 +45,6 @@ export default function ShipperOrderDetailPage({}: Props) {
         setStatus(orders?.status);
       } catch (error) {
         if (error instanceof Error) setError(true);
-        console.log(error);
 
         setLoading(false);
       }
@@ -57,9 +56,10 @@ export default function ShipperOrderDetailPage({}: Props) {
       await setOrderStatus(id, status);
       if (status === "in transit")
         await setOrderStatusWithDeliverer(id, status, loggedInUser?.uid);
+      message.success("In transit");
       setStatus(status);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) message.error(error.message);
     }
   };
 
@@ -71,8 +71,10 @@ export default function ShipperOrderDetailPage({}: Props) {
   return (
     <div>
       <ShipperOrderDetailHeader />
-      <div className="container mx-auto px-2">
-        <h1 style={{ color: orange, fontSize: 48 }}>Order Detail</h1>
+      <div className="container mx-auto px-2" style={{ width: "100vh" }}>
+        <h1 style={{ color: orange, fontSize: 48, textAlign: "center" }}>
+          Order Detail
+        </h1>
         {loading ? (
           <>
             {[1, 2, 3].map((x) => (
@@ -99,6 +101,8 @@ export default function ShipperOrderDetailPage({}: Props) {
                 <h1 style={{ color: orange }}>{user?.displayName}</h1>
                 <h3>Số điện thoại người nhận</h3>
                 <h1 style={{ color: orange }}>{user?.defaultPhoneNumber}</h1>
+                <h3>Thời gian giao hàng</h3>
+                <h1 style={{ color: orange }}></h1>
               </div>
               <div>
                 <h3>Phí giao hàng</h3>
@@ -107,15 +111,17 @@ export default function ShipperOrderDetailPage({}: Props) {
                 </h1>
                 <h3>Tổng đơn</h3>
                 <h1 style={{ color: orange }}>
-                  {convertToDongString(order ? order.totalPrice : 0)}
+                  {convertToDongString(
+                    order
+                      ? order?.products.reduce(
+                          (a, b) => a + b.product.price,
+                          0
+                        ) + order.deliveryFee
+                      : 0
+                  )}
                 </h1>
-                <h3>Thời gian giao hàng</h3>
-                <h1 style={{ color: orange }}>
-                  {moment
-                    .unix(order?.expired.seconds || 0)
-                    .locale("vi")
-                    .format("LLLL")}{" "}
-                </h1>
+                <h3>Địa điểm</h3>
+                <h1 style={{ color: orange }}>{order?.location}</h1>
               </div>
             </div>
             {status === "delivered" && (
@@ -124,12 +130,10 @@ export default function ShipperOrderDetailPage({}: Props) {
                   width: "100%",
                   height: 50,
                   margin: "16px 0",
-                  background: "green",
-                  color: "white",
                 }}
                 onClick={() => newRouter.push("shipper/management")}
               >
-                Đã giao hàng thành công quay lại trang chủ
+                Xác nhận đã giao hàng thành công
               </Button>
             )}
             {status === "pending" && (

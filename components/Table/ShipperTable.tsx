@@ -7,14 +7,19 @@ import convertToDongString from "../../utils/convert";
 const columns: ColumnsType<Product> = [
   {
     title: "Product",
-    dataIndex: "item",
-    key: "item",
+    dataIndex: "product",
+    key: "product",
     render: (item) => {
       return (
         <div
           style={{ display: "flex", alignItems: "center", color: "#FF4206" }}
         >
-          <img src={item.image.src} width={200} height={200} />
+          <img
+            className="rounded-lg"
+            src={item.image.src}
+            width={200}
+            height={200}
+          />
 
           <h2 style={{ margin: "24px 24px" }}>{item.name}</h2>
         </div>
@@ -23,11 +28,15 @@ const columns: ColumnsType<Product> = [
   },
   {
     title: "Price",
-    dataIndex: "item",
-    key: "item",
+    dataIndex: "product",
+    key: "product",
     align: "right",
-    render: (item, state) => {
-      return <h2 style={{ margin: 0, color: "#FF4206" }}>{convertToDongString(item.price * state.quantity)}</h2>;
+    render: (product, state) => {
+      return (
+        <h2 style={{ margin: 0, color: "#FF4206" }}>
+          {convertToDongString(product.price * state.quantity)}
+        </h2>
+      );
     },
   },
   {

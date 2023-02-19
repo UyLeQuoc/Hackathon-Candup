@@ -1,5 +1,5 @@
 export interface Shipper {
-  create: Create;
+  create: string;
   user: User;
   status: string;
   deliveryFee: number;
@@ -85,10 +85,10 @@ export interface Settings {
 
 export interface Product {
   quantity: number;
-  item: Item;
+  product: ProductItem;
 }
 
-export interface Item {
+export interface ProductItem {
   image: Image;
   provider: string;
   name: string;
