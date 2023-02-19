@@ -12,6 +12,7 @@ import { store } from "../store";
 import { auth, db, getUserFromFirebase } from '../utils/firebase';
 import LoginPage from "../components/Login";
 import { Loading } from "react-admin";
+import { useRouter } from "next/router";
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -19,12 +20,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<any>(null);
   console.log("LOGGED IN USER", loggedInUser);
 const persistor = getPersistor();
+const router = useRouter();
 const {dispatch} = store;
 
   useEffect(() => {
-    getUserFromFirebase(loggedInUser?.uid).then((user) => {
-      setUser(user);
-    } );
     const setUserInFirebase = async () => {
       try {
         if(loggedInUser){
@@ -40,6 +39,14 @@ const {dispatch} = store;
             {merge: true}
           )
           dispatch.user.setUserInfo(data);
+          getUserFromFirebase(loggedInUser).then((user) => {
+            if(user?.role === "shipper"){
+              router.push("/shipper/management");
+            }
+            if(user?.role === "admin"){
+              router.push("/admin");
+            }
+          } );
         }
       } catch(error) {
         console.log("ERROR SETTING USER INFO IN FIREBASE", error)
