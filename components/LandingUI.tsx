@@ -1,4 +1,4 @@
-import { Badge, Col, Row } from "antd"
+import { Badge, Col, Row, Skeleton } from "antd"
 import Image from "next/image"
 import Product from "./Product/Product"
 import { FieldTimeOutlined } from '@ant-design/icons';
@@ -30,7 +30,7 @@ const products = [
   },
 ]
 
-function LandingUI() : JSX.Element {
+function LandingUI({products} : any) : JSX.Element {
   return (
     <Row className="landing-ui">
       <Col span={14} className="slogan">
@@ -41,16 +41,22 @@ function LandingUI() : JSX.Element {
         <div className="text-[72px] font-bold text-[#FF4206]">Your University</div>
       </Col>
       <Col span={10} className="hero">
-        <div className="hero-product">
-            <div>
-              <Product product={products[0]}/>
-              <Product product={products[0]}/>
-            </div>
-            <div>
-              <Product product={products[0]}/>
-              <Product product={products[0]}/>
-            </div>
-        </div>
+        {
+          products ? (
+            <div className="hero-product">
+              <div>
+                <Product product={products[0]}/>
+                <Product product={products[1]}/>
+              </div>
+              <div>
+                <Product product={products[2]}/>
+                <Product product={products[3]}/>
+              </div>
+          </div>
+          ) : (
+            <Skeleton />
+          )
+        }
         <Image src={Hero} className="hero-image" alt="hero" width={400} height={600}/>
       </Col>
     </Row>

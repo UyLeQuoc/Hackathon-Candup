@@ -5,35 +5,30 @@ import ProductList from '../components/Product/ProductList'
 import { useEffect, useState } from 'react';
 import { getAllProductsFromFirebase } from '../utils/firebase';
 import { message } from 'antd';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../utils/firebase';
+function HomeContainer({ user, setUser,products,loading }: any): JSX.Element {
 
-function HomeContainer() : JSX.Element {
-  const [products, setProducts] = useState<any>([]);
-  console.log(products);
 
-  useEffect(() => {
-    getAllProductsFromFirebase()
-    .then((res) => {
-      if(!res){
-        message.error('Get products failed')
-        return;
-      }
-      setProducts(res)
-    })
-  },[])
 
   const filterCategoryProducts = (category: string) => {
     return products.filter((product: any) => product.category === category)
   }
 
+  const randomProducts = products
+    .sort(() => Math.random() - 0.5) // Shuffle the array
+    .slice(0, 4); // Take the first 4 elements
+
+
   const CategoryTitle = ["Đồ Ăn", "Đồ Uống", "Khác"];
   return (
     <>
-      <LandingUI />
+      <LandingUI products={randomProducts} />
       {
         CategoryTitle.map((category) => {
           console.log("category", category)
           return (
-            <ProductList category={category} products={filterCategoryProducts(category)}/>
+            <ProductList category={category} products={filterCategoryProducts(category)} loading={loading} />
           )
         })
       }

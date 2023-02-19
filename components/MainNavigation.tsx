@@ -8,7 +8,8 @@ import Logo from '../public/main/logo.svg'
 import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
-function MainNavigation() : JSX.Element {
+import CartIcon from './CartIcon'
+function MainNavigation({user} : any) : JSX.Element {
   const [loggedInUser, loading, error] = useAuthState(auth);
 
   return (
@@ -30,9 +31,7 @@ function MainNavigation() : JSX.Element {
       </div>
       {/* User */}
       <div className='right'>
-        <Badge count={5} color="#FF4206">
-          <ShoppingCartOutlined className='cart-icon'/>
-        </Badge>
+        <CartIcon />
         <Dropdown menu={
           {
             items: [
