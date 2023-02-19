@@ -30,6 +30,7 @@ const persistor = getPersistor();
               lastSeen: serverTimestamp(),
               photoURL: loggedInUser.photoURL,
               displayName: loggedInUser.displayName,
+              phoneNumber: loggedInUser.phoneNumber
             },
             {merge: true}
           )
