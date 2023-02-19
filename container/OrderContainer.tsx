@@ -1,7 +1,8 @@
-import { Button, Typography } from "antd";
+import { Button, Typography, Select, message } from "antd";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import OrderDetailsComponent from "../components/Order/OrderDetailsComponent";
+import OrderDetailsComponent1 from "../components/Order/OrderDetailComponent1";
 import OrderItemListComponent from "../components/Order/OrderItemListComponent";
 import { ICart, IProduct } from "../interfaces";
 import { Dispatch, RootState } from "../store";
@@ -19,6 +20,7 @@ export interface Product {
 const mapState = (state: RootState) => ({
   user: state.user,
 });
+
 const mapDispatch = (dispatch: Dispatch) => ({
   increment: () => dispatch.count.increment(1),
   incrementAsync: () => dispatch.count.incrementAsync(1),
@@ -52,8 +54,9 @@ function OrderContainer(props: any): JSX.Element {
     ProductList: props.user.cart,
     Location: "202",
     DeliveryTime: "9:15-9:30",
-    RecipientName: "John Cena",
-    PhoneNumber: "0123456789",
+    RecipientName: props.user.displayName,
+    PhoneNumber: props.user.phoneNumber,
+    PaymentMethod: "Cash",
     DeliveryFee: 0,
     Total: 0
   })
@@ -149,7 +152,25 @@ function OrderContainer(props: any): JSX.Element {
   };
 
   const handleSubmit = () => {
-    
+    if (cart.Location == ""){
+      message.error("Delivery location must be set")
+      return
+    }
+    if (cart.DeliveryTime == ""){
+      message.error("Delivery Time must be selected")
+      return
+    }
+    if (cart.RecipientName == ""){
+      message.error("Recipient Name must not be empty")
+      return
+    }
+    if (cart.PhoneNumber == ""){
+      message.error("Phone Number must not be empty")
+      return
+    }
+    message.info("Order has been placed")
+    //push data to DB
+
   }
 
 
@@ -161,13 +182,13 @@ function OrderContainer(props: any): JSX.Element {
       <Typography.Title className="text-center">
         THÔNG TIN ĐƠN HÀNG
       </Typography.Title>
-      <OrderDetailsComponent
+      <OrderDetailsComponent1
         headings={deliveryHeading}
         data={[
           { info: cart.Location, handler: locationChangeHandler },
           { info: cart.DeliveryTime, handler: deliveryTimeChangeHandler },
         ]}
-      ></OrderDetailsComponent>
+      ></OrderDetailsComponent1>
       <OrderDetailsComponent
         headings={recipientHeading}
         data={[
@@ -180,8 +201,11 @@ function OrderContainer(props: any): JSX.Element {
         quantityChangeHandler={quantityChangeHandler}
         total={cart.Total}
         deliveryFee={cart.DeliveryFee}
+        paymentMethod={cart.PaymentMethod}
       ></OrderItemListComponent>
       <Button size="large" className="mx-[10vw]" onClick={handleSubmit}>Thanh Toán</Button>
+        
+
     </div>
   );
 }
