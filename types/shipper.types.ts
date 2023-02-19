@@ -9,7 +9,7 @@ export interface Shipper {
   products: Product[];
   deliveryTime: string;
   phoneNumber: string;
-
+  deliverer: string;
 }
 
 export interface Create {
