@@ -1,5 +1,6 @@
 export interface Shipper {
-  create: string;
+  id: string;
+  create: Create;
   user: User;
   status: string;
   deliveryFee: number;

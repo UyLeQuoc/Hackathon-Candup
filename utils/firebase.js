@@ -152,6 +152,7 @@ export const getUserFromFirebase = async (loggedInUser) => {
   }
 };
 
+
 // New Code
 export const getAllProductsFromFirebase = async () => {
   const queryQuestion = query(collection(db, "Products"));
@@ -191,8 +192,11 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
   return output;
 };
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ee48cc70e9c1a04cc0144b44d28a717ad7a00dc7
 export const getOrders = async (id) => {
   const queryQuestion = doc(db, "Orders", `${id}`);
   const noteSnap = await getDoc(queryQuestion);
