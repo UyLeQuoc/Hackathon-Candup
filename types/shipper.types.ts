@@ -7,9 +7,9 @@ export interface Shipper {
   total: number;
   location: string;
   products: Product[];
-  deliveryTime: DeliveryTime;
+  deliveryTime: string;
+  phoneNumber: string;
 
-  
 }
 
 export interface Create {
@@ -69,7 +69,7 @@ export interface Container {
   providers: Providers;
 }
 
-export interface Providers {}
+export interface Providers { }
 
 export interface DatabaseId {
   projectId: string;

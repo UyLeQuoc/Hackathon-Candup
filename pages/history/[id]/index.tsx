@@ -20,15 +20,15 @@ type Props = {};
 
 const orange = "#FF4206";
 
-export default function ShipperOrderDetailPage({ }: Props) {
-  const newRouter = useRouter();
+export default function ShipperOrderDetailPage() {
+  const router = useRouter();
   const [loggedInUser, loadingAuth, errorAuth] = useAuthState(auth);
   const [order, setOrder] = useState<Shipper>();
   const [user, setUser] = useState<Users>();
   const [status, setStatus] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { id } = newRouter.query;
+  const { id } = router.query;
 
   useEffect(() => {
     (async () => {
@@ -64,7 +64,7 @@ export default function ShipperOrderDetailPage({ }: Props) {
   };
 
   if (error) {
-    newRouter.push("/error-shipper");
+    router.push("/error-shipper");
     return null;
   }
 
@@ -122,75 +122,54 @@ export default function ShipperOrderDetailPage({ }: Props) {
                 <h1 style={{ color: orange }}>{order?.location}</h1>
               </div>
             </div>
-            {status === "delivered" && (
-              <Button
-                style={{
-                  width: "100%",
-                  height: 50,
-                  margin: "16px 0",
-                }}
-                onClick={() => newRouter.push("/shipper/management")}
-              >
-                Xác nhận đã giao hàng thành công
-              </Button>
-            )}
-            {status === "pending" && (
-              <Button
-                style={{
-                  width: "100%",
-                  height: 50,
-                  margin: "16px 0",
-                  background: "#FF4206",
-                  color: "white",
-                }}
-                onClick={() => handleChangeStatus("in transit")}
-              >
-                Nhận giao hàng
-              </Button>
-            )}
-            {status === "in transit" && (
-              <>
-                <Button
-                  style={{
-                    width: "100%",
-                    height: 50,
-                    margin: "16px 0",
-                    background: "green",
-                    color: "white",
-                  }}
-                  onClick={() => handleChangeStatus("delivered")}
-                >
-                  Đã giao hàng thành công quay lại trang chủ
-                </Button>
-                <Button
-                  style={{
-                    width: "100%",
-                    height: 50,
-                    margin: "16px 0",
-                    background: "red",
-                    color: "white",
-                  }}
-                  onClick={() => handleChangeStatus("canceled")}
-                >
-                  Hủy đơn hàng
-                </Button>
-              </>
-            )}
-            {status === "canceled" && (
-              <Button
-                style={{
-                  width: "100%",
-                  height: 50,
-                  margin: "16px 0",
-                }}
-                disabled
-              >
-                Đơn hàng đã hủy
-              </Button>
-            )}
-          </>
+
+            <Button
+              style={{
+                width: "100%",
+                height: 50,
+                margin: "16px 0",
+                textTransform: "uppercase",
+              }}
+            >
+              {
+                order && <Render status={order?.status} />
+              }
+            </Button>          </>
         )}
       </div>
     </div>
   );
+}
+
+const Render = ({ status }: { status: string }) : JSX.Element => {
+switch (status) {
+  case "pending":
+    return (
+      <h2 style={{ textTransform: "uppercase", color: "gray" }}>
+        {status}
+      </h2>
+    );
+  case "delivered":
+    return (
+      <h2 style={{ textTransform: "uppercase", color: "green" }}>
+        {status}
+      </h2>
+    );
+  case "in transit":
+    return (
+      <h2 style={{ textTransform: "uppercase", color: "yellow" }}>
+        {status}
+      </h2>
+    );
+  case "canceled":
+    return (
+      <h2 style={{ textTransform: "uppercase", color: "red" }}>
+        {status}
+      </h2>
+    );
+  default: 
+    <h2>{status}</h2>;
+    break;
+  }
+  return <h2>{status}</h2>;
 }

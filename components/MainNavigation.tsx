@@ -1,5 +1,5 @@
 import { Avatar, Badge, Button, ConfigProvider, Dropdown, Input } from 'antd'
-import { SearchOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined } from '@ant-design/icons'
+import { SearchOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined, HistoryOutlined, CarOutlined } from '@ant-design/icons'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -82,6 +82,33 @@ function MainNavigation({user, products = []} : any) : JSX.Element {
             items: [
               {
                 key: '1',
+                label: (
+                  <div onClick={() => router.push("/history")}>
+                    History
+                  </div>
+                ),
+                icon: <HistoryOutlined />,
+              },
+              {
+                key: '3',
+                label: (
+                  <div onClick={() => router.push("/admin")}>
+                    Admin
+                  </div>
+                ),
+                icon: <UserOutlined />,
+              },
+              {
+                key: '4',
+                label: (
+                  <div onClick={() => router.push("/shipper/management")}>
+                    Shipper
+                  </div>
+                ),
+                icon: <CarOutlined />,
+              },
+              {
+                key: '2',
                 label: (
                   <div onClick={() => signOut(auth)}>
                     Log out

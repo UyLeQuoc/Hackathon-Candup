@@ -12,6 +12,7 @@ import { createOrder, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 export interface Product {
   price: number;
   name: string;
@@ -156,7 +157,7 @@ function OrderContainer(props: any): JSX.Element {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  const router = useRouter()
   const handleSubmit = async () => {
     dispatch.user.setUserInfo({phoneNumber: cart.PhoneNumber})
     const phoneNumberRegex = /^(03[2-9]|05[689]|07[06-9]|08[1-9]|09[0-9])+([0-9]{7})$/;
@@ -198,6 +199,7 @@ function OrderContainer(props: any): JSX.Element {
         {merge: true}
       )
     }
+    router.push("/history")
     message.success("Đặt hàng thành công");
   }
 
