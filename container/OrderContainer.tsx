@@ -204,8 +204,8 @@ function OrderContainer(props: any): JSX.Element {
 
   return (
     <div className="flex flex-col bg-slate-400 m-0 p-0">
-      <Modal className="z-1" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <p>HI</p>
+      <Modal className="z-1" title="Xóa sản phẩm" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?</p>
       </Modal>
       <Typography.Title className="text-center">
         THÔNG TIN ĐƠN HÀNG
