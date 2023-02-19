@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
+
 import { getAuth } from "firebase/auth";
 import {
   collection,
@@ -21,6 +22,11 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 // import { v4 as uuidv4 } from 'uuid';
+
+import { getAuth } from 'firebase/auth';
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -130,6 +136,20 @@ export const createAnswer = async (questionID, email) => {
   return data;
 };
 
+export const createOrder = async (cart) => {
+  const id = uuidv4();
+  const orderRef = doc(db, 'Orders' ,`${id}`)
+  await setDoc(orderRef, {
+    create: serverTimestamp(),
+    deviveryFee: cart.DeliveryFee,
+    location: cart.Location,
+    status: 'pending',
+    products: cart.ProductList,
+    user: cart.user,
+    id: id,
+  });
+}
+
 export const getNoteFromFirebase = async (noteID) => {
   const noteRef = doc(db, "Notes", `${noteID}`);
   const noteSnap = await getDoc(noteRef);
@@ -185,6 +205,10 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
     where("category", "==", category)
   );
   const output = [];
+
+export const getProductsFromFirebaseBasedOnShop = async (shop) => {
+  const queryQuestion = query(collection(db, 'Products'), where("shop", "==", shop));
+  const output = []
   const querySnapshot = await getDocs(queryQuestion);
   querySnapshot.forEach((doc) => {
     output.push(doc.data());
@@ -192,11 +216,7 @@ export const getProductsFromFirebaseBasedOnCategory = async (category) => {
   return output;
 };
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> ee48cc70e9c1a04cc0144b44d28a717ad7a00dc7
 export const getOrders = async (id) => {
   const queryQuestion = doc(db, "Orders", `${id}`);
   const noteSnap = await getDoc(queryQuestion);

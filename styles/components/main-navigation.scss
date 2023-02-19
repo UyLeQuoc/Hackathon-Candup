@@ -1,10 +1,12 @@
 .main-navigation{
   height: 64;
   line-height: 64px;
-  padding: 0 60px;
+  padding: 0 80px;
   display: flex;
   justify-content: space-between;
   background-color: white;
+  box-shadow: $box-shadow;
+  position: relative;
 
   .left{
     display: flex;
@@ -40,4 +42,16 @@
     margin-left: 20px;
     color: #000;
   }
+}
+
+.search-result{
+  position: absolute;
+  font-weight: 600;
+  top: 64px;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 64px);
+  z-index: 100;
+  overflow-y: scroll;
+  box-shadow: $box-shadow;
 }

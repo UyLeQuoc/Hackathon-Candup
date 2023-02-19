@@ -1,4 +1,4 @@
-import { Button, Typography } from "antd";
+import { Button, message, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import OrderDetailsComponent from "../components/Order/OrderDetailsComponent";
@@ -7,7 +7,9 @@ import { ICart, IProduct } from "../interfaces";
 import { Dispatch, RootState } from "../store";
 import { Modal } from "antd";
 import ProductList from "../components/Product/ProductList";
-
+import { createOrder } from "../utils/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../utils/firebase";
 export interface Product {
   price: number;
   name: string;
@@ -37,6 +39,7 @@ const removeItem = (id: string, array: any[]) => {
 
 let idRemove : string = "";
 function OrderContainer(props: any): JSX.Element {
+  const [loggedInUser] = useAuthState(auth);
 
   const deliveryHeading = {
     section: "Thông tin giao hàng",
@@ -149,7 +152,13 @@ function OrderContainer(props: any): JSX.Element {
   };
 
   const handleSubmit = () => {
-    
+    if(loggedInUser){
+      createOrder({
+        ...cart,
+        user: loggedInUser.uid,
+      });
+    }
+    message.success("Đặt hàng thành công");
   }
 
 
