@@ -9,6 +9,7 @@
     justify-content: center;
     flex-flow: column;
     padding: 0 80px;
+    z-index: 4;
     }
   .badge{
     border-radius: 100px;
@@ -30,12 +31,20 @@
         display: flex;
         flex-flow: row nowrap;
         
+        @media screen and (max-width: 1000px) {
+          display: none;
+        }
+          
+        
       }
       &-image{
         position: absolute;
         top: 80px;
         right: 40px;
         z-index: 0;
+        @media screen and (max-width: 500px) {
+          display: none;
+        }
       }
       .product-card{
       box-shadow: $box-shadow;

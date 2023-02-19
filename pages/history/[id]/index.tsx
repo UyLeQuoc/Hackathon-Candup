@@ -25,6 +25,7 @@ export default function ShipperOrderDetailPage() {
   const [loggedInUser, loadingAuth, errorAuth] = useAuthState(auth);
   const [order, setOrder] = useState<Shipper>();
   const [user, setUser] = useState<Users>();
+  const [deliverer, setDeliverer] = useState<Users>();
   const [status, setStatus] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,10 @@ export default function ShipperOrderDetailPage() {
         const user = (await getUserFromFirebase({
           uid: orders?.user,
         })) as Users;
+        const deliverer = (await getUserFromFirebase({
+          uid: orders?.deliverer,
+        })) as Users;
+        setDeliverer(deliverer)
         setLoading(false);
         setUser(user);
         setOrder(orders);
@@ -96,9 +101,9 @@ export default function ShipperOrderDetailPage() {
               }}
             >
               <div style={{ padding: "16px" }}>
-                <h3>Tên người nhận</h3>
 
-                <h1 style={{ color: orange }}>{user?.displayName}</h1>
+                <h3>Người giao hàng</h3>
+                <h1 style={{ color: orange }}>{deliverer ? deliverer.displayName : "Chưa có"}</h1>
                 <h3>Số điện thoại người nhận</h3>
                 <h1 style={{ color: orange }}>  {order?.phoneNumber}
                 </h1>
@@ -141,35 +146,35 @@ export default function ShipperOrderDetailPage() {
   );
 }
 
-const Render = ({ status }: { status: string }) : JSX.Element => {
-switch (status) {
-  case "pending":
-    return (
-      <h2 style={{ textTransform: "uppercase", color: "gray" }}>
-        {status}
-      </h2>
-    );
-  case "delivered":
-    return (
-      <h2 style={{ textTransform: "uppercase", color: "green" }}>
-        {status}
-      </h2>
-    );
-  case "in transit":
-    return (
-      <h2 style={{ textTransform: "uppercase", color: "yellow" }}>
-        {status}
-      </h2>
-    );
-  case "canceled":
-    return (
-      <h2 style={{ textTransform: "uppercase", color: "red" }}>
-        {status}
-      </h2>
-    );
-  default: 
-    <h2>{status}</h2>;
-    break;
+const Render = ({ status }: { status: string }): JSX.Element => {
+  switch (status) {
+    case "pending":
+      return (
+        <h2 style={{ textTransform: "uppercase", color: "gray" }}>
+          {status}
+        </h2>
+      );
+    case "delivered":
+      return (
+        <h2 style={{ textTransform: "uppercase", color: "green" }}>
+          {status}
+        </h2>
+      );
+    case "in transit":
+      return (
+        <h2 style={{ textTransform: "uppercase", color: "yellow" }}>
+          {status}
+        </h2>
+      );
+    case "canceled":
+      return (
+        <h2 style={{ textTransform: "uppercase", color: "red" }}>
+          {status}
+        </h2>
+      );
+    default:
+      <h2>{status}</h2>;
+      break;
   }
   return <h2>{status}</h2>;
 }

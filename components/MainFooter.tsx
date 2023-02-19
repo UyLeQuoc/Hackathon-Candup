@@ -10,12 +10,12 @@ function MainFooter() : JSX.Element {
     <div className='bg-white'>
       <Divider />
       <Row justify='space-between' align='top' className='px-[60px] pb-5' >
-        <Col span={8} offset={2}>
+        <Col span={24} offset={2} lg={8}>
           <Link href='/' className='logo'>
             <Image src={Logo} alt='logo' width={33} height={41} />
             <div className='title'>Candup</div>
           </Link>
-          <div className='mt-2'>
+          <div className='my-3'>
           The Candup app connects college students as both buyers and shippers to order and deliver food from 711, Laha and Passio.
           </div>
         </Col>
