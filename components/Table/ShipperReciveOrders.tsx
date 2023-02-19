@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, message, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { Shipper } from "../../types/shipper.types";
+import { Product, Shipper } from "../../types/shipper.types";
 import { getAllOrdersFromFirebase, getUserFromFirebase } from "../../utils/firebase";
 import { useRouter } from "next/router";
 import { Users } from "../../types/user.types";
+import convertToDongString from "../../utils/convert";
+import moment from "moment";
 
 const columns: ColumnsType<Shipper> = [
     {
@@ -12,20 +14,26 @@ const columns: ColumnsType<Shipper> = [
       dataIndex: "create",
       key: "create",
       render: (create) => {
-        const day = new Date(create.seconds);
         return (
             <div style={{minWidth: "200px"}}>
-              <h2>{day.toDateString()}</h2>
+              <h2>{moment
+                    .unix(create.seconds || 0)
+                    .locale("vi")
+                    .format("LLLL")}{" "}</h2>
             </div>
         );
       },
     },
     {
         title: "Tổng tiền",
-        dataIndex: "totalPrice",
-        key: "totalPrice",
-        render: (totalPrice) => {
-          return <h2>{totalPrice}</h2>;
+        dataIndex: "products",
+        key: "products",
+        render: (products:Product[], t) => {
+          const total = products.reduce((a,b) => {
+            return a + b.product.price;
+          }, 0)
+          
+          return <h2>{total + t.deliveryFee }</h2>;
         },
       },
     {
@@ -36,18 +44,18 @@ const columns: ColumnsType<Shipper> = [
         return <h2>{status}</h2>;
       },
     },
-    {
-      title: "Time left",
-      dataIndex: "expired",
-      key: "expired",
-      render: (expired) => {
-        // const expiredDay = new Date(expired.seconds);
-        // const currentDay = new Date();
-        // const timeLeft = expiredDay.getMinutes() - currentDay.getMinutes(); 
-        // if (expiredDay<currentDay) timeLeft ===0;
-        return <h2>min</h2>;
-      },
-    },
+    // {
+    //   title: "Time left",
+    //   dataIndex: "deliveryTime",
+    //   key: "deliveryTime",
+    //   render: (deliveryTime) => {
+    //     const expiredDay = new Date(deliveryTime.seconds);
+    //     const currentDay = new Date();
+    //     const timeLeft = expiredDay.getMinutes() - currentDay.getMinutes(); 
+    //     if (expiredDay<currentDay) timeLeft ===0;
+    //     return <h2>{timeLeft}min</h2>;
+    //   },
+    // },
     {
         title:"Action",
         dataIndex:"id",
@@ -80,6 +88,9 @@ const columns: ColumnsType<Shipper> = [
           const orders = await getAllOrdersFromFirebase();
           const x = orders.map(order =>( {...order.data, id:order.id}));
           setOrders(x);
+          data.forEach(e => {
+            e.products.reduce((a,b) => a+b.product.price,0)
+          });
         } catch (error) {
           console.log(error); 
         }
