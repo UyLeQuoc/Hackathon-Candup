@@ -2,15 +2,17 @@ import { Button, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import ShipperOrderDetailHeader from '../../components/Header/ShipperOrderDetail.header';
 import MainFooter from '../../components/MainFooter';
 import { Product, Shipper } from '../../types/shipper.types';
 import convertToDongString from '../../utils/convert';
-import { getAllOrdersFromFirebase } from '../../utils/firebase';
+import { auth, getAllOrdersFromFirebase, getAllOrdersFromFirebaseQuery } from '../../utils/firebase';
 
 
 
 const ShipperReciveOrders: React.FC = () => {
+  const [loggedInUser, loadingAuth, errorAuth] = useAuthState(auth);
   const [data, setOrders] = useState<Shipper[]>([]);
   const columns: ColumnsType<Shipper> = [
     {
@@ -108,7 +110,7 @@ const ShipperReciveOrders: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const orders = await getAllOrdersFromFirebase();
+        const orders = await getAllOrdersFromFirebaseQuery(loggedInUser?.uid);
         const x = orders.map(order => ({ ...order.data, id: order.id }));
         setOrders(x)
       } catch (error) {

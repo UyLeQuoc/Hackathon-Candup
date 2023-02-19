@@ -40,9 +40,6 @@ const {dispatch} = store;
           )
           dispatch.user.setUserInfo(data);
           getUserFromFirebase(loggedInUser).then((user) => {
-            if(user?.role === "shipper"){
-              // router.push("/shipper/management");
-            }
             if(user?.role === "admin"){
               router.push("/admin");
             }

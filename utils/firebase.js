@@ -196,6 +196,21 @@ export const getAllOrdersFromFirebase = async() => {
   });
   return output;
 }
+ 
+export const getAllOrdersFromFirebaseQuery = async(userID) => {
+  const queryQuestion = query(collection(db,"Orders"),where("user","==",userID));
+  const output = [];
+  const querySnapshot = await getDocs(queryQuestion);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+   const x = {
+    id: doc.id,
+    data: doc.data()
+   }
+    output.push(x);
+  });
+  return output;
+}
 
 export const getProductsFromFirebaseBasedOnShop = async (shop) => {
   const queryQuestion = query(collection(db, 'Products'), where("shop", "==", shop));
