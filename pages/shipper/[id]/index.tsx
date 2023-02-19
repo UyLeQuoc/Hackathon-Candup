@@ -129,7 +129,7 @@ export default function ShipperOrderDetailPage({ }: Props) {
                   height: 50,
                   margin: "16px 0",
                 }}
-                onClick={() => newRouter.push("shipper/management")}
+                onClick={() => newRouter.push("/shipper/management")}
               >
                 Xác nhận đã giao hàng thành công
               </Button>

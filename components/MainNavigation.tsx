@@ -1,4 +1,4 @@
-import { Avatar, Badge, ConfigProvider, Dropdown, Input } from 'antd'
+import { Avatar, Badge, Button, ConfigProvider, Dropdown, Input } from 'antd'
 import { SearchOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined } from '@ant-design/icons'
 
 import Image from 'next/image'
@@ -12,10 +12,12 @@ import CartIcon from './CartIcon'
 import { IProduct } from '../interfaces'
 import { useState } from 'react'
 import ProductList from './Product/ProductList'
+import { useRouter } from 'next/router'
 function MainNavigation({user, products = []} : any) : JSX.Element {
   const [loggedInUser, loading, error] = useAuthState(auth);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const handleSearch = (event : any) => {
     setSearchTerm(event.target.value);
@@ -24,6 +26,23 @@ function MainNavigation({user, products = []} : any) : JSX.Element {
   const filteredProducts = products.filter((product: IProduct) => {
     return product.name.toLowerCase().includes(searchTerm.toLowerCase())
   });
+  console.log(
+    "USER", user
+  )
+  const role = {
+    Admin: {
+      label: 'Admin',
+      url: '/admin'
+    },
+    Client: {
+      label: 'Client',
+      url: '/client'
+    },
+    Shipper: {
+      label: 'Shipper',
+      url: '/shipper/management'
+    }
+  }
 
   return (
     <div className='main-navigation fixed bg-white top-0 left-0 right-0 z-50'>
