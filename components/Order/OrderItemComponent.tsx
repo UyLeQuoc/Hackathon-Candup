@@ -21,7 +21,7 @@ function OrderItemComponent(props:Props) {
   return (
     <Row className="my-[2vh]">
       <Col span={6}>
-        <Image src={product.product.image.src} />
+        <Image src={product.product.image.src} width={100} height={100}/>
       </Col>
       <Col span={6}>
         <InputNumber

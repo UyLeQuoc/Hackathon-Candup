@@ -1,14 +1,16 @@
 // Components import
-import MainNavigation from '../components/MainNavigation';
-import MainFooter from '../components/MainFooter';
-import { Layout, message } from 'antd';
-import HomeContainer from '../container/HomeContainer';
+import { Layout } from 'antd';
 import { useEffect, useState } from 'react';
-import { auth, getAllProductsFromFirebase, getUserFromFirebase } from '../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import MainFooter from '../components/MainFooter';
+import MainNavigation from '../components/MainNavigation';
+import HomeContainer from '../container/HomeContainer';
+import { auth, getProductsFromFirebaseBasedOnShop, getUserFromFirebase } from '../utils/firebase';
 
 function App() {
+  const [loadingSkeleton, setLoadingSkeleton] = useState<boolean>(true);
   const [loggedInUser, loading, error] = useAuthState(auth);
+  const [shopSelect, setShopSelect] = useState<string>('711');
   const [products, setProducts] = useState<any>([]);
   const [loadingProduct, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<any>({
@@ -19,6 +21,7 @@ function App() {
     cart: [],
     phoneNumber: '',
   });
+  console.log('shopSelect', shopSelect)
 
   useEffect(() => {
     if (loggedInUser) {
@@ -27,27 +30,31 @@ function App() {
           console.log(res);
           
           if (!res) {
-            message.error('Get user failed')
             return;
           }
           setUser(res)
         }
         )
 
-
+        // getProductsFromFirebaseBasedOnShop(shopSelect)
+        // .then((res) => {
+        //   console.log(res);
+        //   setProducts(res);
+        //   setLoading(false);
+        // })
     }
     (async () => {
-      const products = await getAllProductsFromFirebase()
+      const products = await getProductsFromFirebaseBasedOnShop(shopSelect)
       setProducts(products);
       setLoading(loadingProduct);
-
+      setLoadingSkeleton(false);
     })();
-  }, [])
+  }, [shopSelect])
 
   return <>
     <Layout>
-      <MainNavigation user={user} />
-      <HomeContainer loading={loadingProduct} products={products} user={user} setUser={setUser} />
+      <MainNavigation user={user} products={products}/>
+      <HomeContainer loading={loadingProduct} products={products} user={user} setUser={setUser} setShopSelect={setShopSelect} loadingSkeleton={loadingSkeleton}/>
       <MainFooter />
     </Layout>
   </>;

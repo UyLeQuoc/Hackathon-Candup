@@ -9,11 +9,27 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import CartIcon from './CartIcon'
-function MainNavigation({user} : any) : JSX.Element {
+import { IProduct } from '../interfaces'
+import { useState } from 'react'
+import ProductList from './Product/ProductList'
+function MainNavigation({user, products} : any) : JSX.Element {
+  if(!products){
+    return <></>
+  }
   const [loggedInUser, loading, error] = useAuthState(auth);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event : any) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product: IProduct) => {
+    return product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  });
+
   return (
-    <div className='main-navigation'>
+    <div className='main-navigation fixed bg-white top-0 left-0 right-0 z-50'>
       <div className='left'>
         <Link href='/' className='logo'>
           <Image src={Logo} alt='logo' width={33} height={41} />
@@ -26,8 +42,17 @@ function MainNavigation({user} : any) : JSX.Element {
           },
         }}
         >
-          <Input className='search-bar' placeholder="Search..." prefix={<SearchOutlined />} />
+            <Input className='search-bar' placeholder="Search..." prefix={<SearchOutlined />} value={searchTerm} onChange={handleSearch}/>
         </ConfigProvider>
+        {
+          searchTerm && (
+            <div className='search-result'>
+              {
+                <ProductList products={filteredProducts} category="Search Result"/>
+              }
+            </div>
+          )
+        }
       </div>
       {/* User */}
       <div className='right'>
