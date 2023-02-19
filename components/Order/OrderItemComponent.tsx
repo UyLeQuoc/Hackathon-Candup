@@ -2,6 +2,7 @@ import { Col, Image, InputNumber, Row, Typography } from "antd";
 import React, { useState } from "react";
 import { Product } from "../../container/OrderContainer";
 import { ICart } from "../../interfaces";
+import convertToDongString from "../../utils/convert";
 
 interface Props {
   product: ICart,
@@ -23,6 +24,9 @@ function OrderItemComponent(props:Props) {
       <Col span={6}>
         <Image src={product.product.image.src} width={100} height={100}/>
       </Col>
+      <Col span={8}>
+        <Typography.Title level={5}>{product.product.name}</Typography.Title>
+      </Col>
       <Col span={6}>
         <InputNumber
           min={0}
@@ -31,11 +35,8 @@ function OrderItemComponent(props:Props) {
           value={product.quantity}
         ></InputNumber>
       </Col>
-      <Col span={8}>
-        <Typography.Title level={5}>{product.product.name}</Typography.Title>
-      </Col>
       <Col span={4}>
-        <Typography.Text>{product.product.price}</Typography.Text>
+        <Typography.Text>{convertToDongString(product.product.price)}</Typography.Text>
       </Col>
     </Row>
   );

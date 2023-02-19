@@ -20,7 +20,7 @@ type Props = {};
 
 const orange = "#FF4206";
 
-export default function ShipperOrderDetailPage({}: Props) {
+export default function ShipperOrderDetailPage({ }: Props) {
   const newRouter = useRouter();
   const [loggedInUser, loadingAuth, errorAuth] = useAuthState(auth);
   const [order, setOrder] = useState<Shipper>();
@@ -100,13 +100,11 @@ export default function ShipperOrderDetailPage({}: Props) {
 
                 <h1 style={{ color: orange }}>{user?.displayName}</h1>
                 <h3>Số điện thoại người nhận</h3>
-                <h1 style={{ color: orange }}>{user?.defaultPhoneNumber}</h1>
+                <h1 style={{ color: orange }}>  {order?.phoneNumber}
+                </h1>
                 <h3>Thời gian giao hàng</h3>
                 <h1 style={{ color: orange }}>
-                  {moment
-                    .unix(order?.deliveryTime?.seconds || 0)
-                    .locale("vi")
-                    .format("LLLL")}
+                  {order?.deliveryTime}
                 </h1>
               </div>
               <div>
@@ -117,12 +115,7 @@ export default function ShipperOrderDetailPage({}: Props) {
                 <h3>Tổng đơn</h3>
                 <h1 style={{ color: orange }}>
                   {convertToDongString(
-                    order
-                      ? order?.products.reduce(
-                          (a, b) => a + b.product.price,
-                          0
-                        ) + order.deliveryFee
-                      : 0
+                    order ? order.total : 0
                   )}
                 </h1>
                 <h3>Địa điểm</h3>

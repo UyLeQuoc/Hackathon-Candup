@@ -29,11 +29,9 @@ const columns: ColumnsType<Shipper> = [
         dataIndex: "products",
         key: "products",
         render: (products:Product[], t) => {
-          const total = products.reduce((a,b) => {
-            return a + b.product.price;
-          }, 0)
+       
           
-          return <h2>{total + t.deliveryFee }</h2>;
+          return <h2>{convertToDongString(t.total) }</h2>;
         },
       },
     {
@@ -70,7 +68,7 @@ const columns: ColumnsType<Shipper> = [
                 <Button
                     type="primary"
                     onClick={handleOnClick}
-                >Nhận đơn
+                >Xem chi tiết
                 </Button>
             </div> 
             )

@@ -12,10 +12,7 @@ import CartIcon from './CartIcon'
 import { IProduct } from '../interfaces'
 import { useState } from 'react'
 import ProductList from './Product/ProductList'
-function MainNavigation({user, products} : any) : JSX.Element {
-  if(!products){
-    return <></>
-  }
+function MainNavigation({user, products = []} : any) : JSX.Element {
   const [loggedInUser, loading, error] = useAuthState(auth);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,17 +32,21 @@ function MainNavigation({user, products} : any) : JSX.Element {
           <Image src={Logo} alt='logo' width={33} height={41} />
           <div className='title'>Candup</div>
         </Link>
-        <ConfigProvider
-         theme={{
-          token: {
-            colorPrimary: '#FF4206',
-          },
-        }}
-        >
-            <Input className='search-bar' placeholder="Search..." prefix={<SearchOutlined />} value={searchTerm} onChange={handleSearch}/>
-        </ConfigProvider>
         {
-          searchTerm && (
+          products.length != 0 && (
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#FF4206',
+                },
+              }}
+              >
+                  <Input className='search-bar' placeholder="Search..." prefix={<SearchOutlined />} value={searchTerm} onChange={handleSearch}/>
+              </ConfigProvider>
+          )
+        }
+        {
+          (searchTerm && products.length != 0) && (
             <div className='search-result'>
               {
                 <ProductList products={filteredProducts} category="Search Result"/>

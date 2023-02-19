@@ -135,12 +135,15 @@ export const createOrder = async (cart) => {
   const orderRef = doc(db, 'Orders' ,`${id}`)
   await setDoc(orderRef, {
     create: serverTimestamp(),
-    deviveryFee: cart.DeliveryFee,
+    deliveryFee: cart.DeliveryFee,
     location: cart.Location,
     status: 'pending',
     products: cart.ProductList,
     user: cart.user,
     id: id,
+    total: cart.Total,
+    deliveryTime: cart.DeliveryTime,
+    phoneNumber: cart.PhoneNumber,
   });
 }
 

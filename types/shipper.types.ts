@@ -4,10 +4,12 @@ export interface Shipper {
   user: User;
   status: string;
   deliveryFee: number;
-  totalPrice: number;
+  total: number;
   location: string;
   products: Product[];
   deliveryTime: DeliveryTime;
+
+  
 }
 
 export interface Create {

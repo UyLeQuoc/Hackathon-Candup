@@ -42,7 +42,7 @@ function OrderDetailsComponent(props: {
 <Typography.Paragraph
             editable={{
               icon: <HighlightOutlined />,
-              tooltip: "click to edit text",
+              tooltip: "Điền số điện thoại người nhận",
               onChange: data[1].handler,
               enterIcon: null,
             }}

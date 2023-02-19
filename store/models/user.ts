@@ -32,6 +32,28 @@ export const user  = createModel()({
 
       };
     },
+    clearProductCart(state):IUser {
+      // Clear product to cart
+        // const newCart : ICart[] = [...state.cart];
+        // const index = newCart.findIndex((item: ICart) => item.product.id === payload.id);
+        // if (index !== -1) {
+        //   newCart.splice(index, 1);
+        // }
+
+      return {
+        ...state,
+        cart: []
+
+      };
+    },
+    setUserInfo(state, payload):IUser {
+      console.log("This is current root state", state);
+      return {
+        ...state,
+        ...payload
+      };
+
+    }
   },
   effects: (dispatch) => ({
     // handle state changes with impure functions.

@@ -1,20 +1,17 @@
-<<<<<<< HEAD
-import { Button, Typography, Select, message } from "antd";
-=======
 import { Button, message, Typography } from "antd";
->>>>>>> main
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import OrderDetailsComponent from "../components/Order/OrderDetailsComponent";
 import OrderDetailsComponent1 from "../components/Order/OrderDetailComponent1";
 import OrderItemListComponent from "../components/Order/OrderItemListComponent";
 import { ICart, IProduct } from "../interfaces";
-import { Dispatch, RootState } from "../store";
+import { Dispatch, RootState, store } from "../store";
 import { Modal } from "antd";
 import ProductList from "../components/Product/ProductList";
-import { createOrder } from "../utils/firebase";
+import { createOrder, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
+import { doc, setDoc } from "firebase/firestore";
 export interface Product {
   price: number;
   name: string;
@@ -55,6 +52,7 @@ function OrderContainer(props: any): JSX.Element {
     section: "Thông tin người nhận",
     sub: ["Tên người nhận", "SĐT người nhận"],
   };
+  console.log("PROPS", props.user)
 
 
   const [cart, setCart] = useState({
@@ -62,7 +60,7 @@ function OrderContainer(props: any): JSX.Element {
     Location: "202",
     DeliveryTime: "9:15-9:30",
     RecipientName: props.user.displayName,
-    PhoneNumber: props.user.phoneNumber,
+    PhoneNumber: props.user.phoneNumber || "09",
     PaymentMethod: "Cash",
     DeliveryFee: 0,
     Total: 0
@@ -90,6 +88,7 @@ function OrderContainer(props: any): JSX.Element {
   };
 
   //update total when productList is changed
+  const {dispatch} = store;
 
   useEffect(() => {
     let temp = 0;
@@ -158,8 +157,15 @@ function OrderContainer(props: any): JSX.Element {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = () => {
-<<<<<<< HEAD
+  const handleSubmit = async () => {
+    dispatch.user.setUserInfo({phoneNumber: cart.PhoneNumber})
+    const phoneNumberRegex = /^(03[2-9]|05[689]|07[06-9]|08[1-9]|09[0-9])+([0-9]{7})$/;
+
+    console.log("CART", cart)
+    if(cart.ProductList.length == 0){
+      message.error("Cart must not be empty")
+      return
+    }
     if (cart.Location == ""){
       message.error("Delivery location must be set")
       return
@@ -172,22 +178,27 @@ function OrderContainer(props: any): JSX.Element {
       message.error("Recipient Name must not be empty")
       return
     }
-    if (cart.PhoneNumber == ""){
-      message.error("Phone Number must not be empty")
+    if (phoneNumberRegex.test(cart.PhoneNumber) == false){
+      message.error("Invalid Vietnamese phone number")
       return
     }
-    message.info("Order has been placed")
     //push data to DB
+    
 
-=======
     if(loggedInUser){
       createOrder({
         ...cart,
+        total: cart.Total,
         user: loggedInUser.uid,
       });
+      dispatch.user.clearProductCart();
+
+      setDoc(
+        doc(db, 'users', loggedInUser.uid),{phoneNumber: cart.PhoneNumber},
+        {merge: true}
+      )
     }
     message.success("Đặt hàng thành công");
->>>>>>> main
   }
 
 

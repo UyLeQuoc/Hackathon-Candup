@@ -17,6 +17,7 @@ function Product({product}: IProps) : JSX.Element {
     notification.success({
       message: 'Thêm sản phẩm thành công',
       description: 'Bạn đã thêm sản phẩm ' + product.name + ' vào giỏ hàng',
+      placement: 'topLeft',
       duration: 2,
     });
   }
