@@ -1,6 +1,6 @@
 .landing-ui{
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh);
   background-color: white;
 
   .slogan{
@@ -24,7 +24,7 @@
       
       &-product{
         position: absolute;
-        top: 50px;
+        top: 120px;
         right: 130px;
         z-index: 1;
         display: flex;
@@ -33,7 +33,7 @@
       }
       &-image{
         position: absolute;
-        top: 20px;
+        top: 80px;
         right: 40px;
         z-index: 0;
       }

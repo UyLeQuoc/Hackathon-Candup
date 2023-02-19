@@ -3,40 +3,31 @@ import Image from "next/image"
 import Product from "./Product/Product"
 import { FieldTimeOutlined } from '@ant-design/icons';
 import Hero from '../public/main/hero.png'
-const products = [
-  {
-    id: 1,
-    name: 'Combo 2 Nem Nướng Xiên Que Giảm 4,000',
-    price: 24000,
-    image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
-  },
-  {
-    id: 2,
-    name: 'Combo Cơm Trộn Poke , Tàu Hũ Singapore & 1 Chai Nuớc',
-    price: 65000,
-    image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
-  },
-  {
-    id: 3,
-    name: 'Combo Cơm Trộn Poke , Tàu Hũ Singapore & 1 Chai Nuớc',
-    price: 65000,
-    image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
-  },
-  {
-    id: 4,
-    name: 'Combo Cơm Trộn Poke , Tàu Hũ Singapore & 1 Chai Nuớc',
-    price: 65000,
-    image: 'https://salt.tikicdn.com/cache/280x280/ts/product/1c/1c/1c/0e6b4b1b1b2b1b1b1b1b1b1b1b1b1b1b.jpg'
-  },
-]
-
+import { TypeAnimation } from "react-type-animation";
 function LandingUI({products} : any) : JSX.Element {
   return (
-    <Row className="landing-ui">
+    <Row className="landing-ui mt-18">
       <Col span={14} className="slogan">
         <div className="badge font-semibold mb-1">Delivery <FieldTimeOutlined className="ml-1"/></div>
         {/* The Best */}
-        <div className="text-[72px] font-bold">The Fastest</div> 
+        <TypeAnimation
+          className=" font-bold"
+          sequence={[
+            'The Fastest', 
+            3000, 
+            'The Best', 
+            3000, 
+            'The Cheapest',
+            3000,
+            () => {
+              console.log('Done typing!'); // Place optional callbacks anywhere in the array
+            }
+          ]}
+          wrapper="div"
+          cursor={true}
+          repeat={Infinity}
+          style={{ fontSize: '36px', marginTop: '8px' }}
+        />
         <div className="text-[72px] font-bold">Delivery in</div>
         <div className="text-[72px] font-bold text-[#FF4206]">Your University</div>
       </Col>
